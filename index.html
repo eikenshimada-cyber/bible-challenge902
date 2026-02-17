@@ -166,16 +166,24 @@ document.getElementById("progressText").textContent = `${dayIndex+1}/90 日`;
 document.getElementById("startInput").value = startDate;
 
 document.getElementById("saveStart").onclick = ()=>{
- let pass = prompt("パスワードを入力");
- if(pass !== "JesusChrist"){
-   alert("パスワードが違います");
-   return;
- }
- let newDate = document.getElementById("startInput").value;
- if(!newDate) return;
- localStorage.setItem("startDate", newDate);
- alert("開始日を更新しました");
- location.reload();
+ 
+　let pass = prompt("パスワードを入力");
+  if(pass !== "JesusChrist"){
+    alert("パスワードが違います");
+    return;
+  }
+
+  let newDate = document.getElementById("startInput").value;
+  if(!newDate) return;
+
+  /* ★★★ 追加：読了者リストもリセット ★★★ */
+  localStorage.setItem("startDate", newDate);
+  localStorage.setItem("readers", JSON.stringify([])); // ← クリア
+  readers = [];                                       // ← メモリ上もクリア
+  renderReaders();                                    // ← 画面更新
+
+  alert("開始日を更新し、読了者リストをリセットしました");
+  location.reload();
 };
 
 /* ================== Tab Navigation ================== */
@@ -189,3 +197,4 @@ document.querySelectorAll("nav button").forEach(btn=>{
 
 </body>
 </html>
+
